@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import ScrollTrigger from '../scroll/ScrollTrigger';
+import CareerTimeline from './CareerTimeline';
 
 export default function AboutSection() {
   const skills = [
@@ -9,7 +10,6 @@ export default function AboutSection() {
   return (
     <section id="about" className="min-h-screen bg-gray-50 dark:bg-gray-800 py-20 relative overflow-hidden">
       <ScrollTrigger>
-        {/* Parallax background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             initial={{ scale: 1.2 }}
@@ -108,6 +108,8 @@ export default function AboutSection() {
           </motion.div>
         </div>
       </ScrollTrigger>
+
+      <CareerTimeline />
     </section>
   );
 }

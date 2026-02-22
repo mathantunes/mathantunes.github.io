@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
 import ScrollTrigger from '../scroll/ScrollTrigger';
 import SkillCards from './SkillCards';
+import * as svg from '../svg';
 
 export default function HeroSection() {
   const socialLinks = [
-    { name: 'LinkedIn', url: 'https://linkedin.com/in/matheusantunes', icon: '/assets/icons/linkedin.svg' },
-    { name: 'GitHub', url: 'https://github.com/matheusantunes', icon: '/assets/icons/github.svg' },
-    { name: 'JAMTech', url: 'https://jamtech.ch', icon: '/assets/icons/jamtech.svg' }
+    { name: 'LinkedIn', url: 'https://linkedin.com/in/matheusantunes', icon: svg.Linkedin },
+    { name: 'GitHub', url: 'https://github.com/matheusantunes', icon: svg.Github },
+    { name: 'JAMTech', url: 'https://jamtech.ch', icon: svg.JAMTech }
   ];
 
   return (
@@ -81,11 +82,7 @@ export default function HeroSection() {
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               >
-                <img
-                  src={link.icon}
-                  alt={link.name}
-                  className={`w-5 h-5 ${link.name.includes('JAMTech') ? 'scale-[250%]' : ''}`}
-                />
+                {link.icon()}
                 <span className="text-sm font-medium">{link.name}</span>
               </motion.a>
             ))}
