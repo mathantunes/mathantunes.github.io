@@ -48,13 +48,12 @@ export default function AboutSection() {
             >
               <div className="space-y-4 text-gray-600 dark:text-gray-300">
                 <p>
-                  I specialize in designing and implementing enterprise-grade applications with a strong focus on compliance, security, and scalability. My experience spans from on-premise systems to modern cloud architectures.
+                  I'm Matheus, a Software Engineer passionate about building robust, scalable, and secure systems.
+                  My journey in technology has been driven by curiosity and a commitment to continuous learning around fullstack development but also everything else that allows applications to be built and run.
                 </p>
                 <p>
-                  With a deep understanding of regulatory requirements and industry standards, I build solutions that not only meet technical requirements but also ensure data protection and operational compliance.
-                </p>
-                <p>
-                  My approach combines modern development practices with enterprise-grade security measures, delivering robust solutions that scale with business needs.
+                  While I bring expertise across the full stack, I also have a strong background in designing systems using cloud infrastructure or self-hosting.
+                  More recently I have been involved in projects with a heavy focus on compliance and data security.
                 </p>
               </div>
             </motion.div>
