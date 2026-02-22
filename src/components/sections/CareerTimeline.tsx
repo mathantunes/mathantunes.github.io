@@ -242,6 +242,35 @@ export default function CareerTimeline() {
             className="absolute h-1 bg-primary-500 origin-left transition-all duration-100"
           />
 
+          {/* Mobile Info Panel - Only show when node is active and timeline is locked */}
+          {isLocked && (() => {
+            const activeNode = careerData.find((node, index) => {
+              const nodePosition = index / (careerData.length - 1);
+              return scrollProgress >= nodePosition && scrollProgress - nodePosition < 0.15;
+            });
+            
+            if (!activeNode) return null;
+            
+            return (
+              <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-64 text-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg md:hidden z-50">
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">
+                  {activeNode.title}
+                </h3>
+                <p className="text-primary-500 dark:text-dark-primary text-xs font-medium mb-1">
+                  {activeNode.company}
+                </p>
+                <p className="text-gray-500 dark:text-gray-400 text-xs">
+                  {activeNode.period}
+                </p>
+                {activeNode.description && (
+                  <p className="text-gray-600 dark:text-gray-300 text-xs mt-2">
+                    {activeNode.description}
+                  </p>
+                )}
+              </div>
+            );
+          })()}
+
           {/* Career Nodes */}
           <div className="relative h-full flex items-center justify-between px-2 md:px-4">
             {careerData.map((node, index) => {
@@ -273,7 +302,7 @@ export default function CareerTimeline() {
                       }`}
                   />
 
-                  {/* Fork Node Content - Positioned above fork timeline */}
+                  {/* Fork Node Content - Desktop version */}
                   {isForkNode && (
                     <motion.div
                       style={{
@@ -281,9 +310,9 @@ export default function CareerTimeline() {
                         y: isActive ? -80 : -100,
                         transition: 'all 0.3s ease-out'
                       }}
-                      className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-0"
+                      className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-0 hidden md:block"
                     >
-                      <h3 className="font-semibold text-gray-900 dark:text-white text-xs md:text-sm">
+                      <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
                         {node.title}
                       </h3>
                       <p className="text-primary-500 dark:text-dark-primary text-xs font-medium">
@@ -292,13 +321,13 @@ export default function CareerTimeline() {
                       <p className="text-gray-500 dark:text-gray-400 text-xs">
                         {node.period}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-300 text-xs mt-1 hidden md:block">
+                      <p className="text-gray-600 dark:text-gray-300 text-xs mt-1">
                         {node.description}
                       </p>
                     </motion.div>
                   )}
 
-                  {/* Main Node Content - Positioned below main timeline */}
+                  {/* Main Node Content - Desktop version */}
                   {!isForkNode && node.start !== 'Present' && (
                     <motion.div
                       style={{
@@ -306,9 +335,9 @@ export default function CareerTimeline() {
                         y: isActive ? 20 : 40,
                         transition: 'all 0.3s ease-out'
                       }}
-                      className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-12"
+                      className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-12 hidden md:block"
                     >
-                      <h3 className="font-semibold text-gray-900 dark:text-white text-xs md:text-sm">
+                      <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
                         {node.title}
                       </h3>
                       <p className="text-primary-500 dark:text-dark-primary text-xs font-medium">
@@ -317,7 +346,7 @@ export default function CareerTimeline() {
                       <p className="text-gray-500 dark:text-gray-400 text-xs">
                         {node.period}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-300 text-xs mt-1 hidden md:block">
+                      <p className="text-gray-600 dark:text-gray-300 text-xs mt-1">
                         {node.description}
                       </p>
                     </motion.div>
