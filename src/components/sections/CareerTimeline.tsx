@@ -6,7 +6,7 @@ interface CareerNode {
   company: string;
   period: string;
   description: string;
-  start: number | string;
+  start: number;
   isFork?: boolean;
   isConvergence?: boolean;
   highlights?: string[];
@@ -16,30 +16,33 @@ interface CareerNode {
 
 const careerData: CareerNode[] = [
   {
-    title: 'Software Developer 🇧🇷',
-    company: 'Alstom',
-    period: '2017 - 2020',
-    description: 'Started career in software analysis and development',
+    title: 'Co-Founder 🇨🇭',
+    company: 'JAMTech',
+    period: '2024 - Present',
+    description: 'Building innovative tech solutions',
     highlights: [
-      'Delivered a modular communication system for automated railway systems',
-      'Implementation of features for central signaling system for São Paulo subway'
+      'Designed and delivered multiple end-to-end cloud migrations from on-premises infrastructure to Azure and Microsoft 365 Enterprise',
+      'Architected secure identity and device management solutions using Entra ID, Intune, and zero-trust principles',
+      'Technical owner of Progredoc, a SaaS platform for social insurance, built with Next.js, React, and MySQL on Google Cloud Platform',
+      'Designed CI/CD pipelines, infrastructure automation, and production monitoring from ground up',
+      'Integrated AI-assisted development workflows (Cursor, Claude) to accelerate feature delivery and architectural prototyping 🤖'
     ],
-    techStack: ['C++', 'C#', 'Go', 'Docker', 'GitLab', 'Protobuf', 'gRPC', 'NATs', 'Kubernetes'],
-    start: 2017
+    techStack: ['Next.js', 'React', 'MySQL', 'GCP', 'Azure', 'Microsoft 365', 'Entra ID', 'Intune', 'CI/CD', 'VPN', 'Fortigate'],
+    start: 2024,
+    isFork: true
   },
   {
-    title: 'Software Engineer 🇧🇷',
-    company: 'BTG Pactual',
-    period: '2020 - 2021',
-    description: 'Developed financial software solutions',
-    start: 2020,
+    title: 'Senior Fullstack Engineer 🇨🇭',
+    company: 'Valora',
+    period: '2023 - Present',
+    description: 'Leading fullstack development and cloud architecture for retail solutions',
+    start: 2023,
     highlights: [
-      'Designed and implemented serverless data pipelines using AWS SAM and Jenkins',
-      'Architected an event-driven framework (C#, messaging systems) improving microservices performance by 30%',
-      'Built centralized serverless data lake ingestion pipelines (Node.js, AWS)'
+      'Led end-to-end implementation of a self-checkout platform, including backend services and enterprise integrations, deployed across hundreds of stores',
+      'Designed cloud architecture and implemented Terraform-based infrastructure provisioning for Azure',
+      'Led a mission-critical cloud interconnection project between GCP and Azure, ensuring secure hybrid connectivity'
     ],
-    techStack: ['C#', 'Go', 'Node.js', 'AWS', 'SAM', 'Jenkins', 'Microservices', 'Kubernetes', 'NGINX', 'RabbitMQ', 'IBM MQ'],
-    certifications: ['AWS Solutions Architect Associate'],
+    techStack: ['F#', 'React', 'Firebase', 'PostgreSQL', 'GCP', 'Azure', 'Terraform', 'GitHub', 'Intune'],
   },
   {
     title: 'Fullstack Software Engineer 🇨🇭',
@@ -56,33 +59,30 @@ const careerData: CareerNode[] = [
     certifications: ['Microsoft Azure Developer Associate'],
   },
   {
-    title: 'Senior Fullstack Engineer 🇨🇭',
-    company: 'Valora',
-    period: '2023 - Present',
-    description: 'Leading fullstack development and cloud architecture for retail solutions',
-    start: 2023,
+    title: 'Software Engineer 🇧🇷',
+    company: 'BTG Pactual',
+    period: '2020 - 2021',
+    description: 'Developed financial software solutions',
+    start: 2020,
     highlights: [
-      'Led end-to-end implementation of a self-checkout platform, including backend services and enterprise integrations, deployed across hundreds of stores',
-      'Designed cloud architecture and implemented Terraform-based infrastructure provisioning for Azure',
-      'Led a mission-critical cloud interconnection project between GCP and Azure, ensuring secure hybrid connectivity'
+      'Designed and implemented serverless data pipelines using AWS SAM and Jenkins',
+      'Architected an event-driven framework (C#, messaging systems) improving microservices performance by 30%',
+      'Built centralized serverless data lake ingestion pipelines (Node.js, AWS)'
     ],
-    techStack: ['F#', 'React', 'Firebase', 'PostgreSQL', 'GCP', 'Azure', 'Terraform', 'GitHub', 'Intune'],
+    techStack: ['C#', 'Go', 'Node.js', 'AWS', 'SAM', 'Jenkins', 'Microservices', 'Kubernetes', 'NGINX', 'RabbitMQ', 'IBM MQ'],
+    certifications: ['AWS Solutions Architect Associate'],
   },
   {
-    title: 'Co-Founder 🇨🇭',
-    company: 'JAMTech',
-    period: '2024 - Present',
-    description: 'Building innovative tech solutions',
+    title: 'Software Developer 🇧🇷',
+    company: 'Alstom',
+    period: '2017 - 2020',
+    description: 'Started career in software analysis and development',
     highlights: [
-      'Designed and delivered multiple end-to-end cloud migrations from on-premises infrastructure to Azure and Microsoft 365 Enterprise',
-      'Architected secure identity and device management solutions using Entra ID, Intune, and zero-trust principles',
-      'Technical owner of Progredoc, a SaaS platform for social insurance, built with Next.js, React, and MySQL on Google Cloud Platform',
-      'Designed CI/CD pipelines, infrastructure automation, and production monitoring from ground up',
-      'Integrated AI-assisted development workflows (Cursor, Claude) to accelerate feature delivery and architectural prototyping 🤖'
+      'Delivered a modular communication system for automated railway systems',
+      'Implementation of features for central signaling system for São Paulo subway'
     ],
-    techStack: ['Next.js', 'React', 'MySQL', 'GCP', 'Azure', 'Microsoft 365', 'Entra ID', 'Intune', 'CI/CD', 'VPN', 'Fortigate'],
-    start: 2024,
-    isFork: true
+    techStack: ['C++', 'C#', 'Go', 'Docker', 'GitLab', 'Protobuf', 'gRPC', 'NATs', 'Kubernetes'],
+    start: 2017
   }
 ];
 
@@ -108,35 +108,31 @@ export default function CareerTimeline() {
         <div className="relative">
           {/* Vertical Timeline Line */}
           <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700" />
-          
-          {/* Timeline Nodes */}
           <div className="space-y-8">
-            {careerData.filter(node => node.start !== 'Present').reverse().map((node, index) => {
+            {careerData.map((node, index) => {
               const originalIndex = careerData.findIndex(n => n === node);
               const isSelected = selectedNode === originalIndex;
-              
+
               return (
                 <div key={index} className="relative flex items-start">
                   {/* Timeline Node */}
                   <motion.button
                     onClick={() => handleNodeClick(originalIndex)}
-                    className={`relative z-10 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 transition-all duration-300 ${
-                      isSelected 
-                        ? 'bg-primary-500 dark:bg-dark-primary scale-125' 
+                    className={`relative z-10 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 transition-all duration-300 ${isSelected
+                        ? 'bg-primary-500 dark:bg-dark-primary scale-125'
                         : 'bg-gray-300 dark:bg-gray-600 hover:bg-primary-400 dark:hover:bg-dark-primary-400'
-                    }`}
+                      }`}
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                   />
-                  
+
                   {/* Content */}
                   <div className="ml-6 flex-1">
-                    <motion.div 
-                      className={`bg-white dark:bg-gray-800 rounded-lg shadow-md border-2 border-gray-200 dark:border-gray-700 p-4 cursor-pointer transition-all duration-300 ${
-                        isSelected ? 'ring-2 ring-primary-500 dark:ring-dark-primary' : ''
-                      }`}
+                    <motion.div
+                      className={`bg-white dark:bg-gray-800 rounded-lg shadow-md border-2 border-gray-200 dark:border-gray-700 p-4 cursor-pointer transition-all duration-300 ${isSelected ? 'ring-2 ring-primary-500 dark:ring-dark-primary' : ''
+                        }`}
                       onClick={() => handleNodeClick(originalIndex)}
-                      whileHover={{ 
+                      whileHover={{
                         scale: 1.02,
                         boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
                         borderColor: "rgb(99 102 241)"
@@ -152,7 +148,7 @@ export default function CareerTimeline() {
                       <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">
                         {node.period}
                       </p>
-                      
+
                       <motion.div
                         initial={false}
                         animate={{
@@ -165,7 +161,7 @@ export default function CareerTimeline() {
                         <p className="text-gray-600 dark:text-gray-300 text-xs mb-3">
                           {node.description}
                         </p>
-                        
+
                         {node.highlights && node.highlights.length > 0 && (
                           <div className="mb-3">
                             <h4 className="text-xs font-semibold text-gray-900 dark:text-white mb-2">Key Highlights:</h4>
@@ -179,7 +175,7 @@ export default function CareerTimeline() {
                             </ul>
                           </div>
                         )}
-                        
+
                         {node.techStack && node.techStack.length > 0 && (
                           <div>
                             <h4 className="text-xs font-semibold text-gray-900 dark:text-white mb-2">Tech Stack:</h4>
