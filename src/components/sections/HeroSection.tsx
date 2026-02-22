@@ -5,8 +5,8 @@ import * as svg from '../svg';
 
 export default function HeroSection() {
   const socialLinks = [
-    { name: 'LinkedIn', url: 'https://linkedin.com/in/matheusantunes', icon: svg.Linkedin },
-    { name: 'GitHub', url: 'https://github.com/matheusantunes', icon: svg.Github },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/matheus-antunes-de-jesus-b81860112/', icon: svg.Linkedin },
+    { name: 'GitHub', url: 'https://github.com/mathantunes', icon: svg.Github },
     { name: 'JAMTech', url: 'https://jamtech.ch', icon: svg.JAMTech }
   ];
 
