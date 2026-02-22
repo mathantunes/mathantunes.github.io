@@ -288,24 +288,6 @@ export default function ProjectsShowcase() {
               </AnimatePresence>
             </div>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-center mt-16"
-          >
-            <p className="text-gray-600 dark:text-gray-300 mb-8">
-              And many more enterprise projects focused on scalable, compliant solutions
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-primary-500 dark:bg-dark-primary text-white rounded-lg font-medium hover:bg-primary-600 dark:hover:bg-dark-accent transition-colors"
-            >
-              View Full Portfolio
-            </motion.button>
-          </motion.div>
         </div>
       </ScrollTrigger>
     </section>
