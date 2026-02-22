@@ -12,28 +12,28 @@ interface SkillCard {
 const skillsData: SkillCard[] = [
   {
     title: 'Development',
-    icon: '💻',
+    icon: '/assets/icons/dev.png',
     description: 'Building robust applications',
     skills: ['TypeScript', 'React', 'Node.js', 'Nextjs', 'C#', '.NET', 'F#', 'Go', 'Git', 'SQL'],
     color: 'from-blue-500 to-cyan-500'
   },
   {
     title: 'DevOps',
-    icon: '🌐',
+    icon: '/assets/icons/infra.png',
     description: 'Designing scalable architectures',
     skills: ['Azure', 'AWS', 'GCP', 'Terraform', 'CI/CD', 'Docker', 'Microsoft 365'],
     color: 'from-green-500 to-emerald-500'
   },
   {
     title: 'Sec & Compliance',
-    icon: '🛡️',
+    icon: '/assets/icons/compliance.png',
     description: 'Ensuring enterprise standards',
     skills: ['Fortigate', 'Private networking', 'Data Protection'],
     color: 'from-purple-500 to-pink-500'
   },
   {
     title: 'AI',
-    icon: '🤖',
+    icon: '/assets/icons/ai.png',
     description: 'Accelerating innovation',
     skills: ['Claude', 'LangChain', 'Ollama', 'Qdrant', 'RAGs'],
     color: 'from-red-500 to-orange-500'
@@ -60,8 +60,8 @@ export default function SkillDock() {
               whileHover={{ scale: 1.1, x: 4 }}
               whileTap={{ scale: 0.95 }}
               animate={{
-                backgroundColor: isActive ? 'rgba(99,102,241,0.1)' : 'transparent',
-                borderColor: isActive ? 'rgb(99,102,241)' : 'rgb(229,231,235)',
+                backgroundColor: isActive ? 'rgba(99,102,241,0.1)' : 'rgba(255,255,255,0.05)',
+                borderColor: isActive ? 'rgb(99,102,241)' : 'rgba(255,255,255,0.1)',
                 x: isActive ? 4 : 0
               }}
               transition={{ duration: 0.2 }}
@@ -71,7 +71,11 @@ export default function SkillDock() {
                 backgroundColor: isActive ? 'rgba(99,102,241,0.1)' : undefined
               }}
             >
-              {skill.icon}
+              <img 
+                src={skill.icon} 
+                alt={skill.title}
+                className="w-8 h-8 md:w-10 md:h-10 object-contain"
+              />
             </motion.button>
           );
         })}
