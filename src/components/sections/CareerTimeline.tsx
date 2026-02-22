@@ -9,8 +9,8 @@ interface CareerNode {
   start: number;
   isFork?: boolean;
   isConvergence?: boolean;
-  highlights?: string[];
-  techStack?: string[];
+  highlights: string[];
+  techStack: string[];
   certifications?: string[];
 }
 
@@ -119,8 +119,8 @@ export default function CareerTimeline() {
                   <motion.button
                     onClick={() => handleNodeClick(originalIndex)}
                     className={`relative z-10 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 transition-all duration-300 ${isSelected
-                        ? 'bg-primary-500 dark:bg-dark-primary scale-125'
-                        : 'bg-gray-300 dark:bg-gray-600 hover:bg-primary-400 dark:hover:bg-dark-primary-400'
+                      ? 'bg-primary-500 dark:bg-dark-primary scale-125'
+                      : 'bg-gray-300 dark:bg-gray-600 hover:bg-primary-400 dark:hover:bg-dark-primary-400'
                       }`}
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
@@ -148,6 +148,19 @@ export default function CareerTimeline() {
                       <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">
                         {node.period}
                       </p>
+                      {node.certifications && node.certifications.length > 0 && (
+                        <div className="mb-3">
+                          <h4 className="text-xs text-gray-900 dark:text-white">Certifications:</h4>
+                          <ul className="space-y-1">
+                            {node.certifications.map((cert, idx) => (
+                              <li key={idx} className="text-left">
+                                <span className="text-primary-500 dark:text-dark-primary mr-2">•</span>
+                                <span className="text-xs text-gray-600 dark:text-gray-300">{cert}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
 
                       <motion.div
                         initial={false}
@@ -162,7 +175,7 @@ export default function CareerTimeline() {
                           {node.description}
                         </p>
 
-                        {node.highlights && node.highlights.length > 0 && (
+                        {node.highlights.length > 0 && (
                           <div className="mb-3">
                             <h4 className="text-xs font-semibold text-gray-900 dark:text-white mb-2">Key Highlights:</h4>
                             <ul className="space-y-1">
@@ -176,7 +189,7 @@ export default function CareerTimeline() {
                           </div>
                         )}
 
-                        {node.techStack && node.techStack.length > 0 && (
+                        {node.techStack.length > 0 && (
                           <div>
                             <h4 className="text-xs font-semibold text-gray-900 dark:text-white mb-2">Tech Stack:</h4>
                             <div className="flex flex-wrap gap-1">
