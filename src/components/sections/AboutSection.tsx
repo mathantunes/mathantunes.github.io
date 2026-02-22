@@ -3,8 +3,7 @@ import ScrollTrigger from '../scroll/ScrollTrigger';
 
 export default function AboutSection() {
   const skills = [
-    'Cloud Architecture', 'System Design', 'Compliance', 'API Design', 
-    'Database Design', 'DevOps', 'Security', 'Microservices'
+    'Software development', 'Cloud Architecture', 'DevOps', 'Database Design', 'Compliance', 'Security', 'Microservices', 'Networking'
   ];
 
   return (
@@ -48,7 +47,7 @@ export default function AboutSection() {
               transition={{ duration: 0.8 }}
             >
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Architecture & Cloud Specialist
+                Software development | Architecture | Cloud
               </h3>
               <div className="space-y-4 text-gray-600 dark:text-gray-300">
                 <p>
@@ -97,12 +96,12 @@ export default function AboutSection() {
           >
             <div className="inline-flex items-center gap-8 text-gray-600 dark:text-gray-300">
               <div>
-                <div className="text-3xl font-bold text-primary-500 dark:text-dark-primary">5+</div>
+                <div className="text-3xl font-bold text-primary-500 dark:text-dark-primary">7+</div>
                 <div className="text-sm">Years Experience</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary-500 dark:text-dark-primary">50+</div>
-                <div className="text-sm">Projects Delivered</div>
+                <div className="text-3xl font-bold text-primary-500 dark:text-dark-primary">4+</div>
+                <div className="text-sm">Industries</div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-primary-500 dark:text-dark-primary">100%</div>
