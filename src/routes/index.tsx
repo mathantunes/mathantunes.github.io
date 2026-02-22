@@ -8,6 +8,8 @@ export default function AppRoutes() {
     <AnimatePresence>
         <Routes>
             <Route index element={<Home />} />
+            <Route path="about" element={<Home />} />
+            <Route path="projects" element={<Home />} />
             <Route path="contact" element={<Contact />} />
         </Routes>
     </AnimatePresence>
