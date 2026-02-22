@@ -1,19 +1,19 @@
-import { BrowserRouter, HashRouter } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 import PageWrapper from './components/PageWrapper';
 import AppRoutes from './routes';
 import { ThemeProvider } from './contexts/ThemeContext';
 
-function App() {
-  const isProduction = import.meta.env.MODE === 'production';
-  const Router = isProduction ? HashRouter : BrowserRouter;
+const router = createHashRouter([
+  {
+    path: "/",
+    element: <PageWrapper><AppRoutes /></PageWrapper>,
+  }
+]);
 
+function App() {
   return (
     <ThemeProvider>
-      <Router>
-        <PageWrapper>
-          <AppRoutes />
-        </PageWrapper>
-      </Router>
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }
