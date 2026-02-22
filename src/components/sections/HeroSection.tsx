@@ -87,16 +87,6 @@ export default function HeroSection() {
               </motion.a>
             ))}
           </motion.div>
-
-          <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="inline-block"
-            >
-              <div className="w-6 h-10 border-2 border-primary-500 dark:border-dark-primary rounded-full flex justify-center">
-                <div className="w-1 h-3 bg-primary-500 dark:bg-dark-primary rounded-full mt-2"></div>
-              </div>
-            </motion.div>
         </div>
       </ScrollTrigger>
     </section>
