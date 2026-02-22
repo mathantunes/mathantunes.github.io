@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface CareerNode {
   title: string;
@@ -9,155 +9,92 @@ interface CareerNode {
   start: number | string;
   isFork?: boolean;
   isConvergence?: boolean;
+  highlights?: string[];
+  techStack?: string[];
+  certifications?: string[];
 }
 
 const careerData: CareerNode[] = [
   {
-    title: 'Software Analyst',
+    title: 'Software Developer 🇧🇷',
     company: 'Alstom',
     period: '2017 - 2020',
     description: 'Started career in software analysis and development',
+    highlights: [
+      'Delivered a modular communication system for automated railway systems',
+      'Implementation of features for central signaling system for São Paulo subway'
+    ],
+    techStack: ['C++', 'C#', 'Go', 'Docker', 'GitLab', 'Protobuf', 'gRPC', 'NATs', 'Kubernetes'],
     start: 2017
   },
   {
-    title: 'Software Engineer',
+    title: 'Software Engineer 🇧🇷',
     company: 'BTG Pactual',
     period: '2020 - 2021',
     description: 'Developed financial software solutions',
-    start: 2020
+    start: 2020,
+    highlights: [
+      'Designed and implemented serverless data pipelines using AWS SAM and Jenkins',
+      'Architected an event-driven framework (C#, messaging systems) improving microservices performance by 30%',
+      'Built centralized serverless data lake ingestion pipelines (Node.js, AWS)'
+    ],
+    techStack: ['C#', 'Go', 'Node.js', 'AWS', 'SAM', 'Jenkins', 'Microservices', 'Kubernetes', 'NGINX', 'RabbitMQ', 'IBM MQ'],
+    certifications: ['AWS Solutions Architect Associate'],
   },
   {
-    title: 'Fullstack Software Engineer',
+    title: 'Fullstack Software Engineer 🇨🇭',
     company: 'Loanboox',
     period: '2021 - 2023',
     description: 'Built fullstack applications for fintech industry',
-    start: 2021
+    start: 2021,
+    highlights: [
+      'Designed and implemented subscription-based product features, directly increasing platform revenue',
+      'Led technical implementation of a white-labeling solution to expand into German market',
+      'Managed Azure infrastructure, deployments, and CI/CD workflows'
+    ],
+    techStack: ['Angular', 'C#', 'Azure', 'Azure DevOps', 'Entity Framework'],
+    certifications: ['Microsoft Azure Developer Associate'],
   },
   {
-    title: 'Senior Fullstack Engineer',
+    title: 'Senior Fullstack Engineer 🇨🇭',
     company: 'Valora',
     period: '2023 - Present',
-    description: 'Leading fullstack development for retail solutions',
-    start: 2023
+    description: 'Leading fullstack development and cloud architecture for retail solutions',
+    start: 2023,
+    highlights: [
+      'Led end-to-end implementation of a self-checkout platform, including backend services and enterprise integrations, deployed across hundreds of stores',
+      'Designed cloud architecture and implemented Terraform-based infrastructure provisioning for Azure',
+      'Led a mission-critical cloud interconnection project between GCP and Azure, ensuring secure hybrid connectivity'
+    ],
+    techStack: ['F#', 'React', 'Firebase', 'PostgreSQL', 'GCP', 'Azure', 'Terraform', 'GitHub', 'Intune'],
   },
   {
-    title: 'Co-Founder',
+    title: 'Co-Founder 🇨🇭',
     company: 'JAMTech',
     period: '2024 - Present',
     description: 'Building innovative tech solutions',
+    highlights: [
+      'Designed and delivered multiple end-to-end cloud migrations from on-premises infrastructure to Azure and Microsoft 365 Enterprise',
+      'Architected secure identity and device management solutions using Entra ID, Intune, and zero-trust principles',
+      'Technical owner of Progredoc, a SaaS platform for social insurance, built with Next.js, React, and MySQL on Google Cloud Platform',
+      'Designed CI/CD pipelines, infrastructure automation, and production monitoring from ground up',
+      'Integrated AI-assisted development workflows (Cursor, Claude) to accelerate feature delivery and architectural prototyping 🤖'
+    ],
+    techStack: ['Next.js', 'React', 'MySQL', 'GCP', 'Azure', 'Microsoft 365', 'Entra ID', 'Intune', 'CI/CD', 'VPN', 'Fortigate'],
     start: 2024,
     isFork: true
-  },
-  {
-    title: 'Present',
-    company: 'Current Roles',
-    period: '2026',
-    description: 'Actively contributing to both Valora and JAMTech',
-    start: "Present",
   }
 ];
 
 export default function CareerTimeline() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isLocked, setIsLocked] = useState(false);
-  const [hasPlayed, setHasPlayed] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [selectedNode, setSelectedNode] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  useEffect(() => {
-    if (isMobile) return; // Skip desktop scroll behavior on mobile
-
-    const handleScroll = () => {
-      if (!containerRef.current || hasPlayed) return;
-
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      // Check if timeline is in view and user hasn't scrolled past it
-      const isCentered = rect.top <= windowHeight / 3 && rect.bottom >= windowHeight / 2;
-      const userScrolledPast = rect.top < 0;
-
-      // Only activate if timeline is centered and user hasn't scrolled past it
-      if (isCentered && !userScrolledPast && !isLocked) {
-        setIsLocked(true);
-
-        // Lock scroll position
-        const scrollPosition = window.scrollY;
-        document.body.style.overflow = 'hidden';
-        window.scrollTo(0, scrollPosition);
-
-        // Track scroll wheel movement for animation
-        let accumulatedDelta = 0;
-        const maxDelta = 1000; // Total scroll distance needed
-
-        const handleWheel = (e: Event) => {
-          e.preventDefault();
-          const wheelEvent = e as WheelEvent;
-          accumulatedDelta += wheelEvent.deltaY;
-
-          // Allow escape by scrolling up significantly
-          if (accumulatedDelta < -200) {
-            setIsLocked(false);
-            document.body.style.overflow = '';
-            window.removeEventListener('wheel', handleWheel);
-            window.scrollBy(0, accumulatedDelta);
-            return;
-          }
-
-          // Map scroll delta to progress (0 to 1)
-          const newProgress = Math.max(0, Math.min(1, accumulatedDelta / maxDelta));
-          setScrollProgress(newProgress);
-
-          // Unlock when animation is complete
-          if (newProgress >= 1) {
-            setIsLocked(false);
-            setHasPlayed(true);
-            document.body.style.overflow = '';
-            window.removeEventListener('wheel', handleWheel);
-          }
-        };
-
-        // Add wheel event listener
-        window.addEventListener('wheel', handleWheel);
-
-        return () => {
-          window.removeEventListener('wheel', handleWheel);
-        };
-      }
-
-      // If user has already scrolled past the timeline, mark as played
-      if (userScrolledPast && !hasPlayed) {
-        setHasPlayed(true);
-        setScrollProgress(1);
-      }
-    };
-
-    // Check initial scroll position on mount
-    handleScroll();
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isLocked, hasPlayed, isMobile]);
 
   const handleNodeClick = (index: number) => {
-    if (isMobile) {
-      setSelectedNode(selectedNode === index ? null : index);
-    }
+    setSelectedNode(selectedNode === index ? null : index);
   };
 
   return (
-    <div ref={containerRef} className="relative py-40 overflow-hidden">
+    <div className="relative py-20 overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
@@ -168,256 +105,104 @@ export default function CareerTimeline() {
           Career Journey
         </motion.h2>
 
-        {/* Mobile Timeline */}
-        {isMobile && (
-          <div className="md:hidden">
-            <div className="relative">
-              {/* Vertical Timeline Line */}
-              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700" />
+        <div className="relative">
+          {/* Vertical Timeline Line */}
+          <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700" />
+          
+          {/* Timeline Nodes */}
+          <div className="space-y-8">
+            {careerData.filter(node => node.start !== 'Present').reverse().map((node, index) => {
+              const originalIndex = careerData.findIndex(n => n === node);
+              const isSelected = selectedNode === originalIndex;
               
-              {/* Timeline Nodes */}
-              <div className="space-y-8">
-                {careerData.filter(node => node.start !== 'Present').map((node, index) => {
-                  const originalIndex = careerData.findIndex(n => n === node);
-                  const isSelected = selectedNode === originalIndex;
+              return (
+                <div key={index} className="relative flex items-start">
+                  {/* Timeline Node */}
+                  <motion.button
+                    onClick={() => handleNodeClick(originalIndex)}
+                    className={`relative z-10 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 transition-all duration-300 ${
+                      isSelected 
+                        ? 'bg-primary-500 dark:bg-dark-primary scale-125' 
+                        : 'bg-gray-300 dark:bg-gray-600 hover:bg-primary-400 dark:hover:bg-dark-primary-400'
+                    }`}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                  />
                   
-                  return (
-                    <div key={index} className="relative flex items-start">
-                      {/* Timeline Node */}
-                      <button
-                        onClick={() => handleNodeClick(originalIndex)}
-                        className={`relative z-10 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 transition-all duration-300 ${
-                          isSelected 
-                            ? 'bg-primary-500 dark:bg-dark-primary scale-125' 
-                            : 'bg-gray-300 dark:bg-gray-600 hover:bg-primary-400 dark:hover:bg-dark-primary-400'
-                        }`}
-                      />
+                  {/* Content */}
+                  <div className="ml-6 flex-1">
+                    <motion.div 
+                      className={`bg-white dark:bg-gray-800 rounded-lg shadow-md border-2 border-gray-200 dark:border-gray-700 p-4 cursor-pointer transition-all duration-300 ${
+                        isSelected ? 'ring-2 ring-primary-500 dark:ring-dark-primary' : ''
+                      }`}
+                      onClick={() => handleNodeClick(originalIndex)}
+                      whileHover={{ 
+                        scale: 1.02,
+                        boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+                        borderColor: "rgb(99 102 241)"
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">
+                        {node.title}
+                      </h3>
+                      <p className="text-primary-500 dark:text-dark-primary text-xs font-medium mb-1">
+                        {node.company}
+                      </p>
+                      <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">
+                        {node.period}
+                      </p>
                       
-                      {/* Content */}
-                      <div className="ml-6 flex-1">
-                        <div 
-                          className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 cursor-pointer transition-all duration-300 ${
-                            isSelected ? 'ring-2 ring-primary-500 dark:ring-dark-primary' : ''
-                          }`}
-                          onClick={() => handleNodeClick(originalIndex)}
-                        >
-                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">
-                            {node.title}
-                          </h3>
-                          <p className="text-primary-500 dark:text-dark-primary text-xs font-medium mb-1">
-                            {node.company}
-                          </p>
-                          <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">
-                            {node.period}
-                          </p>
-                          
-                          <motion.div
-                            initial={false}
-                            animate={{
-                              height: isSelected ? 'auto' : 0,
-                              opacity: isSelected ? 1 : 0
-                            }}
-                            transition={{ duration: 0.3 }}
-                            className="overflow-hidden"
-                          >
-                            <p className="text-gray-600 dark:text-gray-300 text-xs">
-                              {node.description}
-                            </p>
-                          </motion.div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Desktop Timeline */}
-        {!isMobile && (
-          <div className="hidden md:block">
-            {/* Timeline Container */}
-            <div className="relative h-32 md:h-48 mb-16">
-              {/* Main Timeline Line */}
-              <div className="absolute top-2/3 md:top-2/3 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-700" />
-
-              {/* Fork Timeline Line - Only from fork point onwards */}
-              <div
-                className="absolute h-1 bg-gray-200 dark:bg-gray-700"
-                style={{
-                  top: '33.333%',
-                  left: `${(careerData.findIndex(node => node.isFork) / (careerData.length - 1)) * 100}%`,
-                  width: `${((careerData.length - 1 - careerData.findIndex(node => node.isFork)) / (careerData.length - 1)) * 100}%`
-                }}
-              />
-
-              {/* Fork Connection Line - Vertical */}
-              <div
-                className="absolute w-0.5 bg-gray-200 dark:bg-gray-700"
-                style={{
-                  left: `${(careerData.findIndex(node => node.isFork) / (careerData.length - 1)) * 100}%`,
-                  top: '33.333%',
-                  height: '33.333%'
-                }}
-              />
-
-              {/* Year Markers - Main Timeline */}
-              <div className="absolute top-2/3 left-0 right-0 flex justify-between px-2 md:px-4">
-                {careerData.map((node, index) => {
-                  const nodePosition = index / (careerData.length - 1);
-
-                  return (
-                    <div
-                      key={`main-${node.start}`}
-                      className="relative"
-                      style={{
-                        position: 'absolute',
-                        left: `${nodePosition * 100}%`,
-                        transform: 'translateX(-50%)'
-                      }}
-                    >
-                      <div className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full" />
-                      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                        {node.start}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Year Markers - Fork Timeline (only from fork point) */}
-              <div className="absolute top-1/3 left-0 right-0 flex justify-between px-2 md:px-4">
-                {careerData.filter(node => node.isFork || node.start === 'Present').map((node) => {
-                  const forkIndex = careerData.findIndex(n => n === node);
-                  const nodePosition = forkIndex / (careerData.length - 1);
-                  const isActive = scrollProgress >= nodePosition;
-
-                  return (
-                    <div
-                      key={`fork-${node.start}`}
-                      className="relative"
-                      style={{
-                        position: 'absolute',
-                        left: `${nodePosition * 100}%`,
-                        transform: 'translateX(-50%)'
-                      }}
-                    >
-                      <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-500 dark:bg-dark-primary' : 'bg-gray-300 dark:bg-gray-600'
-                        }`} />
-
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Moving Progress Line - Main Timeline */}
-              <motion.div
-                style={{
-                  width: `${scrollProgress * 100}%`,
-                  top: '66.666%'
-                }}
-                className="absolute left-0 h-1 bg-primary-500 origin-left transition-all duration-100"
-              />
-
-              {/* Moving Progress Line - Fork Timeline */}
-              <motion.div
-                style={{
-                  width: `${scrollProgress >= (careerData.findIndex(node => node.isFork) / (careerData.length - 1)) ? ((scrollProgress - (careerData.findIndex(node => node.isFork) / (careerData.length - 1))) / ((careerData.length - 1 - careerData.findIndex(node => node.isFork)) / (careerData.length - 1))) * ((careerData.length - 1 - careerData.findIndex(node => node.isFork)) / (careerData.length - 1)) * 100 : 0}%`,
-                  top: '33.333%',
-                  left: `${(careerData.findIndex(node => node.isFork) / (careerData.length - 1)) * 100}%`,
-                  opacity: scrollProgress >= (careerData.findIndex(node => node.isFork) / (careerData.length - 1)) && scrollProgress <= 1 ? 1 : 0
-                }}
-                className="absolute h-1 bg-primary-500 origin-left transition-all duration-100"
-              />
-
-              {/* Career Nodes */}
-              <div className="relative h-full flex items-center justify-between px-2 md:px-4">
-                {careerData.map((node, index) => {
-                  const nodePosition = index / (careerData.length - 1);
-                  const isActive = scrollProgress >= nodePosition;
-                  const scale = isActive ? 1 : 0;
-                  const opacity = scrollProgress >= nodePosition - 0.02 && scrollProgress <= nodePosition + 0.02 ? 1 : (isActive ? 1 : 0);
-                  const isForkNode = node.isFork;
-
-                  return (
-                    <div
-                      key={index}
-                      className="relative"
-                      style={{
-                        position: 'absolute',
-                        left: `${nodePosition * 100}%`,
-                        transform: 'translateX(-50%)',
-                        top: isForkNode ? '33.333%' : '66.666%'
-                      }}
-                    >
-                      {/* Node */}
                       <motion.div
-                        style={{
-                          scale,
-                          opacity,
-                          transition: 'all 0.3s ease-out'
+                        initial={false}
+                        animate={{
+                          height: isSelected ? 'auto' : 0,
+                          opacity: isSelected ? 1 : 0
                         }}
-                        className={`w-3 h-3 md:w-4 md:h-4 rounded-full border-2 md:border-4 border-white dark:border-gray-900 z-10 ${'bg-primary-500 dark:bg-dark-primary'
-                          }`}
-                      />
-
-                      {/* Fork Node Content - Desktop version */}
-                      {isForkNode && (
-                        <motion.div
-                          style={{
-                            opacity: isActive ? 1 : 0,
-                            y: isActive ? -80 : -100,
-                            transition: 'all 0.3s ease-out'
-                          }}
-                          className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-0"
-                        >
-                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                            {node.title}
-                          </h3>
-                          <p className="text-primary-500 dark:text-dark-primary text-xs font-medium">
-                            {node.company}
-                          </p>
-                          <p className="text-gray-500 dark:text-gray-400 text-xs">
-                            {node.period}
-                          </p>
-                          <p className="text-gray-600 dark:text-gray-300 text-xs mt-1">
-                            {node.description}
-                          </p>
-                        </motion.div>
-                      )}
-
-                      {/* Main Node Content - Desktop version */}
-                      {!isForkNode && node.start !== 'Present' && (
-                        <motion.div
-                          style={{
-                            opacity: isActive ? 1 : 0,
-                            y: isActive ? 20 : 40,
-                            transition: 'all 0.3s ease-out'
-                          }}
-                          className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-12"
-                        >
-                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                            {node.title}
-                          </h3>
-                          <p className="text-primary-500 dark:text-dark-primary text-xs font-medium">
-                            {node.company}
-                          </p>
-                          <p className="text-gray-500 dark:text-gray-400 text-xs">
-                            {node.period}
-                          </p>
-                          <p className="text-gray-600 dark:text-gray-300 text-xs mt-1">
-                            {node.description}
-                          </p>
-                        </motion.div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <p className="text-gray-600 dark:text-gray-300 text-xs mb-3">
+                          {node.description}
+                        </p>
+                        
+                        {node.highlights && node.highlights.length > 0 && (
+                          <div className="mb-3">
+                            <h4 className="text-xs font-semibold text-gray-900 dark:text-white mb-2">Key Highlights:</h4>
+                            <ul className="space-y-1">
+                              {node.highlights.map((highlight, idx) => (
+                                <li key={idx} className="text-left">
+                                  <span className="text-primary-500 dark:text-dark-primary mr-2">•</span>
+                                  <span className="text-xs text-gray-600 dark:text-gray-300">{highlight}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {node.techStack && node.techStack.length > 0 && (
+                          <div>
+                            <h4 className="text-xs font-semibold text-gray-900 dark:text-white mb-2">Tech Stack:</h4>
+                            <div className="flex flex-wrap gap-1">
+                              {node.techStack.map((tech) => (
+                                <span
+                                  key={tech}
+                                  className="px-2 md:px-4 py-1 md:py-1.5 bg-primary-200/40 dark:bg-dark-primary/20 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium"
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </motion.div>
+                    </motion.div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
