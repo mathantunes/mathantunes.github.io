@@ -46,9 +46,6 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Software development | Architecture | Cloud
-              </h3>
               <div className="space-y-4 text-gray-600 dark:text-gray-300">
                 <p>
                   I specialize in designing and implementing enterprise-grade applications with a strong focus on compliance, security, and scalability. My experience spans from on-premise systems to modern cloud architectures.

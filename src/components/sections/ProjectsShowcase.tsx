@@ -55,10 +55,11 @@ const projectsData: ProjectGroup[] = [
         description: 'Complete migration from on-premise infrastructure to cloud-only Microsoft 365 environment.',
         technologies: ['Microsoft 365', 'Azure AD', 'PowerShell', 'Migration Tools', 'Compliance Framework'],
         highlights: [
-          'Migrated 500+ users to cloud infrastructure',
+          'Migrated 3 companies from on-premise to cloud-only Microsoft 365 environment',
           'Implemented compliance monitoring and reporting',
-          'Automated user provisioning and deprovisioning',
-          'Established disaster recovery procedures'
+          'Automated user provisioning',
+          'Established disaster recovery procedures',
+          'Zero-trust security model'
         ],
         color: 'from-purple-500 to-pink-500'
       }
