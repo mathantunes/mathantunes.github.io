@@ -28,7 +28,7 @@ const projectsData: ProjectGroup[] = [
       {
         title: 'Progredoc',
         description: 'SaaS application with heavy compliance requirements for document management and workflow automation.',
-        technologies: ['Next.js', 'MySQL', 'Google Cloud Platform', 'TypeScript', 'Tailwind', 'Private networking'],
+        technologies: ['TypeScript', 'Next.js', 'Tailwind', 'MySQL', 'Google Cloud Platform', 'RBAC', 'Private networking', 'CMEK', 'SEDEX'],
         highlights: [
           'Implemented role-based access control (RBAC) system',
           'Built automated compliance reporting engine',
@@ -40,7 +40,7 @@ const projectsData: ProjectGroup[] = [
       {
         title: 'Corex',
         description: 'Swiss data exchange platform system integration with event-sourcing architecture for secure data exchange.',
-        technologies: ['C#', 'Event Sourcing', 'Docker', 'APIs', 'Self-hosted'],
+        technologies: ['C#', 'Event Sourcing', 'Postgres', 'Docker', 'Self-hosted', 'Zero Trust', 'ABAC'],
         highlights: [
           'Implemented event-sourcing pattern for audit trails',
           'Self-hosted with Docker / Kubernetes',
@@ -53,9 +53,9 @@ const projectsData: ProjectGroup[] = [
       {
         title: 'IT Infrastructure Migration',
         description: 'Complete migration from on-premise infrastructure to cloud-only Microsoft 365 environment.',
-        technologies: ['Microsoft 365', 'Azure AD', 'PowerShell', 'Migration Tools', 'Compliance Framework'],
+        technologies: ['Microsoft 365', 'Entra ID', 'PowerShell', 'Purview', 'Intune', 'Zero Trust', 'Data Loss Prevention', 'VPN', 'GSA', 'D-SIPD'],
         highlights: [
-          'Migrated 3 companies from on-premise to cloud-only Microsoft 365 environment',
+          'Migrated multiple organizations from on-premise to cloud-only Microsoft 365 environment',
           'Implemented compliance monitoring and reporting',
           'Automated user provisioning',
           'Established disaster recovery procedures',
@@ -73,7 +73,7 @@ const projectsData: ProjectGroup[] = [
       {
         title: 'Globudget',
         description: 'Multi-currency wealth tracking and budget management platform designed for individuals managing finances across different countries and exchange rates. Built for those who need to keep track of multiple currencies and transfers across different exchange rates.',
-        technologies: ['Next.js', 'PostgreSQL', 'Currency APIs', 'Charts.js', 'TypeScript'],
+        technologies: ['Next.js', 'PostgreSQL', 'Charts.js', 'TypeScript'],
         highlights: [
           'Multi-account support for different currencies',
           'Interactive charts and spending analytics',
@@ -108,7 +108,7 @@ const projectsData: ProjectGroup[] = [
       {
         title: 'Self Checkout System',
         description: 'Modern web-based self checkout solution featuring React frontend with F# backend, designed for Valora retail chain to streamline customer checkout experience and reduce operational costs.',
-        technologies: ['React', 'F#', 'Postgres', 'Payments', 'OPI', 'VPN', 'SAP'],
+        technologies: ['React', 'F#', 'Postgres', 'Payments', 'OPI', 'VPN', 'SAP', 'GCP', 'BigQuery', 'Firebase Analytics'],
         highlights: [
           'Real-time inventory integration with SAP ERP system',
           'Secure payment processing with multiple payment methods',
@@ -155,7 +155,7 @@ export default function ProjectsShowcase() {
 
           {/* Projects Dock */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 max-w-5xl mx-auto">
-            
+
             {/* Group Dock */}
             <div className="flex flex-row md:flex-col gap-3 md:gap-4 order-2 md:order-1">
               {projectsData.map((group, index) => {
@@ -174,13 +174,13 @@ export default function ProjectsShowcase() {
                     }}
                     transition={{ duration: 0.2 }}
                     className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl border-2 shadow-sm bg-white dark:bg-gray-800 text-xl md:text-2xl transition-colors"
-                    style={{ 
+                    style={{
                       borderColor: isActive ? '#6366f1' : undefined,
                       backgroundColor: isActive ? 'rgba(99,102,241,0.1)' : undefined
                     }}
                   >
-                    <img 
-                      src={group.icon} 
+                    <img
+                      src={group.icon}
                       alt={group.title}
                       className="w-8 h-8 md:w-10 md:h-10 object-contain"
                     />
@@ -213,11 +213,10 @@ export default function ProjectsShowcase() {
                           <button
                             key={index}
                             onClick={() => setActiveProject(index)}
-                            className={`w-2 h-2 rounded-full transition-colors ${
-                              index === activeProject 
-                                ? 'bg-primary-500' 
-                                : 'bg-gray-300 dark:bg-gray-600'
-                            }`}
+                            className={`w-2 h-2 rounded-full transition-colors ${index === activeProject
+                              ? 'bg-primary-500'
+                              : 'bg-gray-300 dark:bg-gray-600'
+                              }`}
                           />
                         ))}
                       </div>
@@ -267,7 +266,7 @@ export default function ProjectsShowcase() {
                           className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg text-sm font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
                         >
                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                           </svg>
                           GitHub
                         </a>

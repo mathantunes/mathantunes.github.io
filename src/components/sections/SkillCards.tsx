@@ -28,7 +28,7 @@ const skillsData: SkillCard[] = [
     title: 'Sec & Compliance',
     icon: '/assets/icons/compliance.png',
     description: 'Ensuring enterprise standards',
-    skills: ['Fortigate', 'Private networking', 'Data Protection'],
+    skills: ['Private networking', 'Data Protection', 'Zero Trust', 'VPN', 'Disaster Recovery', 'Data Loss Prevention'],
     color: 'from-purple-500 to-pink-500'
   },
   {
