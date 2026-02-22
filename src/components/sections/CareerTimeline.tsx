@@ -6,7 +6,7 @@ interface CareerNode {
   company: string;
   period: string;
   description: string;
-  start: number | string; // Year when this role started
+  start: number | string;
   isFork?: boolean;
   isConvergence?: boolean;
 }
@@ -62,8 +62,22 @@ export default function CareerTimeline() {
   const [isLocked, setIsLocked] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [selectedNode, setSelectedNode] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return; // Skip desktop scroll behavior on mobile
+
     const handleScroll = () => {
       if (!containerRef.current || hasPlayed) return;
 
@@ -134,7 +148,13 @@ export default function CareerTimeline() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isLocked, hasPlayed]);
+  }, [isLocked, hasPlayed, isMobile]);
+
+  const handleNodeClick = (index: number) => {
+    if (isMobile) {
+      setSelectedNode(selectedNode === index ? null : index);
+    }
+  };
 
   return (
     <div ref={containerRef} className="relative py-40 overflow-hidden">
@@ -148,214 +168,256 @@ export default function CareerTimeline() {
           Career Journey
         </motion.h2>
 
-        {/* Timeline Container */}
-        <div className="relative h-32 md:h-48 mb-16">
-          {/* Main Timeline Line */}
-          <div className="absolute top-2/3 md:top-2/3 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-700" />
-
-          {/* Fork Timeline Line - Only from fork point onwards */}
-          <div
-            className="absolute h-1 bg-gray-200 dark:bg-gray-700"
-            style={{
-              top: '33.333%',
-              left: `${(careerData.findIndex(node => node.isFork) / (careerData.length - 1)) * 100}%`,
-              width: `${((careerData.length - 1 - careerData.findIndex(node => node.isFork)) / (careerData.length - 1)) * 100}%`
-            }}
-          />
-
-          {/* Fork Connection Line - Vertical */}
-          <div
-            className="absolute w-0.5 bg-gray-200 dark:bg-gray-700"
-            style={{
-              left: `${(careerData.findIndex(node => node.isFork) / (careerData.length - 1)) * 100}%`,
-              top: '33.333%',
-              height: '33.333%'
-            }}
-          />
-
-          {/* Year Markers - Main Timeline */}
-          <div className="absolute top-2/3 left-0 right-0 flex justify-between px-2 md:px-4">
-            {careerData.map((node, index) => {
-              const nodePosition = index / (careerData.length - 1);
-
-              return (
-                <div
-                  key={`main-${node.start}`}
-                  className="relative"
-                  style={{
-                    position: 'absolute',
-                    left: `${nodePosition * 100}%`,
-                    transform: 'translateX(-50%)'
-                  }}
-                >
-                  <div className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full" />
-                  <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                    {node.start}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Year Markers - Fork Timeline (only from fork point) */}
-          <div className="absolute top-1/3 left-0 right-0 flex justify-between px-2 md:px-4">
-            {careerData.filter(node => node.isFork || node.start === 'Present').map((node) => {
-              const forkIndex = careerData.findIndex(n => n === node);
-              const nodePosition = forkIndex / (careerData.length - 1);
-              const isActive = scrollProgress >= nodePosition;
-
-              return (
-                <div
-                  key={`fork-${node.start}`}
-                  className="relative"
-                  style={{
-                    position: 'absolute',
-                    left: `${nodePosition * 100}%`,
-                    transform: 'translateX(-50%)'
-                  }}
-                >
-                  <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-500 dark:bg-dark-primary' : 'bg-gray-300 dark:bg-gray-600'
-                    }`} />
-
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Moving Progress Line - Main Timeline */}
-          <motion.div
-            style={{
-              width: `${scrollProgress * 100}%`,
-              top: '66.666%'
-            }}
-            className="absolute left-0 h-1 bg-primary-500 origin-left transition-all duration-100"
-          />
-
-          {/* Moving Progress Line - Fork Timeline */}
-          <motion.div
-            style={{
-              width: `${scrollProgress >= (careerData.findIndex(node => node.isFork) / (careerData.length - 1)) ? ((scrollProgress - (careerData.findIndex(node => node.isFork) / (careerData.length - 1))) / ((careerData.length - 1 - careerData.findIndex(node => node.isFork)) / (careerData.length - 1))) * ((careerData.length - 1 - careerData.findIndex(node => node.isFork)) / (careerData.length - 1)) * 100 : 0}%`,
-              top: '33.333%',
-              left: `${(careerData.findIndex(node => node.isFork) / (careerData.length - 1)) * 100}%`,
-              opacity: scrollProgress >= (careerData.findIndex(node => node.isFork) / (careerData.length - 1)) && scrollProgress <= 1 ? 1 : 0
-            }}
-            className="absolute h-1 bg-primary-500 origin-left transition-all duration-100"
-          />
-
-          {/* Mobile Info Panel - Only show when node is active and timeline is locked */}
-          {isLocked && (() => {
-            const activeNode = careerData.find((_, index) => {
-              const nodePosition = index / (careerData.length - 1);
-              return scrollProgress >= nodePosition && scrollProgress - nodePosition < 0.15;
-            });
-            
-            if (!activeNode) return null;
-            
-            return (
-              <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-64 text-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg md:hidden z-50">
-                <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">
-                  {activeNode.title}
-                </h3>
-                <p className="text-primary-500 dark:text-dark-primary text-xs font-medium mb-1">
-                  {activeNode.company}
-                </p>
-                <p className="text-gray-500 dark:text-gray-400 text-xs">
-                  {activeNode.period}
-                </p>
-                {activeNode.description && (
-                  <p className="text-gray-600 dark:text-gray-300 text-xs mt-2">
-                    {activeNode.description}
-                  </p>
-                )}
+        {/* Mobile Timeline */}
+        {isMobile && (
+          <div className="md:hidden">
+            <div className="relative">
+              {/* Vertical Timeline Line */}
+              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700" />
+              
+              {/* Timeline Nodes */}
+              <div className="space-y-8">
+                {careerData.filter(node => node.start !== 'Present').map((node, index) => {
+                  const originalIndex = careerData.findIndex(n => n === node);
+                  const isSelected = selectedNode === originalIndex;
+                  
+                  return (
+                    <div key={index} className="relative flex items-start">
+                      {/* Timeline Node */}
+                      <button
+                        onClick={() => handleNodeClick(originalIndex)}
+                        className={`relative z-10 w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 transition-all duration-300 ${
+                          isSelected 
+                            ? 'bg-primary-500 dark:bg-dark-primary scale-125' 
+                            : 'bg-gray-300 dark:bg-gray-600 hover:bg-primary-400 dark:hover:bg-dark-primary-400'
+                        }`}
+                      />
+                      
+                      {/* Content */}
+                      <div className="ml-6 flex-1">
+                        <div 
+                          className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 cursor-pointer transition-all duration-300 ${
+                            isSelected ? 'ring-2 ring-primary-500 dark:ring-dark-primary' : ''
+                          }`}
+                          onClick={() => handleNodeClick(originalIndex)}
+                        >
+                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">
+                            {node.title}
+                          </h3>
+                          <p className="text-primary-500 dark:text-dark-primary text-xs font-medium mb-1">
+                            {node.company}
+                          </p>
+                          <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">
+                            {node.period}
+                          </p>
+                          
+                          <motion.div
+                            initial={false}
+                            animate={{
+                              height: isSelected ? 'auto' : 0,
+                              opacity: isSelected ? 1 : 0
+                            }}
+                            transition={{ duration: 0.3 }}
+                            className="overflow-hidden"
+                          >
+                            <p className="text-gray-600 dark:text-gray-300 text-xs">
+                              {node.description}
+                            </p>
+                          </motion.div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })()}
-
-          {/* Career Nodes */}
-          <div className="relative h-full flex items-center justify-between px-2 md:px-4">
-            {careerData.map((node, index) => {
-              const nodePosition = index / (careerData.length - 1);
-              const isActive = scrollProgress >= nodePosition;
-              const scale = isActive ? 1 : 0;
-              const opacity = scrollProgress >= nodePosition - 0.02 && scrollProgress <= nodePosition + 0.02 ? 1 : (isActive ? 1 : 0);
-              const isForkNode = node.isFork;
-
-              return (
-                <div
-                  key={index}
-                  className="relative"
-                  style={{
-                    position: 'absolute',
-                    left: `${nodePosition * 100}%`,
-                    transform: 'translateX(-50%)',
-                    top: isForkNode ? '33.333%' : '66.666%'
-                  }}
-                >
-                  {/* Node */}
-                  <motion.div
-                    style={{
-                      scale,
-                      opacity,
-                      transition: 'all 0.3s ease-out'
-                    }}
-                    className={`w-3 h-3 md:w-4 md:h-4 rounded-full border-2 md:border-4 border-white dark:border-gray-900 z-10 ${'bg-primary-500 dark:bg-dark-primary'
-                      }`}
-                  />
-
-                  {/* Fork Node Content - Desktop version */}
-                  {isForkNode && (
-                    <motion.div
-                      style={{
-                        opacity: isActive ? 1 : 0,
-                        y: isActive ? -80 : -100,
-                        transition: 'all 0.3s ease-out'
-                      }}
-                      className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-0 hidden md:block"
-                    >
-                      <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                        {node.title}
-                      </h3>
-                      <p className="text-primary-500 dark:text-dark-primary text-xs font-medium">
-                        {node.company}
-                      </p>
-                      <p className="text-gray-500 dark:text-gray-400 text-xs">
-                        {node.period}
-                      </p>
-                      <p className="text-gray-600 dark:text-gray-300 text-xs mt-1">
-                        {node.description}
-                      </p>
-                    </motion.div>
-                  )}
-
-                  {/* Main Node Content - Desktop version */}
-                  {!isForkNode && node.start !== 'Present' && (
-                    <motion.div
-                      style={{
-                        opacity: isActive ? 1 : 0,
-                        y: isActive ? 20 : 40,
-                        transition: 'all 0.3s ease-out'
-                      }}
-                      className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-12 hidden md:block"
-                    >
-                      <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                        {node.title}
-                      </h3>
-                      <p className="text-primary-500 dark:text-dark-primary text-xs font-medium">
-                        {node.company}
-                      </p>
-                      <p className="text-gray-500 dark:text-gray-400 text-xs">
-                        {node.period}
-                      </p>
-                      <p className="text-gray-600 dark:text-gray-300 text-xs mt-1">
-                        {node.description}
-                      </p>
-                    </motion.div>
-                  )}
-                </div>
-              );
-            })}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Desktop Timeline */}
+        {!isMobile && (
+          <div className="hidden md:block">
+            {/* Timeline Container */}
+            <div className="relative h-32 md:h-48 mb-16">
+              {/* Main Timeline Line */}
+              <div className="absolute top-2/3 md:top-2/3 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-700" />
+
+              {/* Fork Timeline Line - Only from fork point onwards */}
+              <div
+                className="absolute h-1 bg-gray-200 dark:bg-gray-700"
+                style={{
+                  top: '33.333%',
+                  left: `${(careerData.findIndex(node => node.isFork) / (careerData.length - 1)) * 100}%`,
+                  width: `${((careerData.length - 1 - careerData.findIndex(node => node.isFork)) / (careerData.length - 1)) * 100}%`
+                }}
+              />
+
+              {/* Fork Connection Line - Vertical */}
+              <div
+                className="absolute w-0.5 bg-gray-200 dark:bg-gray-700"
+                style={{
+                  left: `${(careerData.findIndex(node => node.isFork) / (careerData.length - 1)) * 100}%`,
+                  top: '33.333%',
+                  height: '33.333%'
+                }}
+              />
+
+              {/* Year Markers - Main Timeline */}
+              <div className="absolute top-2/3 left-0 right-0 flex justify-between px-2 md:px-4">
+                {careerData.map((node, index) => {
+                  const nodePosition = index / (careerData.length - 1);
+
+                  return (
+                    <div
+                      key={`main-${node.start}`}
+                      className="relative"
+                      style={{
+                        position: 'absolute',
+                        left: `${nodePosition * 100}%`,
+                        transform: 'translateX(-50%)'
+                      }}
+                    >
+                      <div className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full" />
+                      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                        {node.start}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Year Markers - Fork Timeline (only from fork point) */}
+              <div className="absolute top-1/3 left-0 right-0 flex justify-between px-2 md:px-4">
+                {careerData.filter(node => node.isFork || node.start === 'Present').map((node) => {
+                  const forkIndex = careerData.findIndex(n => n === node);
+                  const nodePosition = forkIndex / (careerData.length - 1);
+                  const isActive = scrollProgress >= nodePosition;
+
+                  return (
+                    <div
+                      key={`fork-${node.start}`}
+                      className="relative"
+                      style={{
+                        position: 'absolute',
+                        left: `${nodePosition * 100}%`,
+                        transform: 'translateX(-50%)'
+                      }}
+                    >
+                      <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-500 dark:bg-dark-primary' : 'bg-gray-300 dark:bg-gray-600'
+                        }`} />
+
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Moving Progress Line - Main Timeline */}
+              <motion.div
+                style={{
+                  width: `${scrollProgress * 100}%`,
+                  top: '66.666%'
+                }}
+                className="absolute left-0 h-1 bg-primary-500 origin-left transition-all duration-100"
+              />
+
+              {/* Moving Progress Line - Fork Timeline */}
+              <motion.div
+                style={{
+                  width: `${scrollProgress >= (careerData.findIndex(node => node.isFork) / (careerData.length - 1)) ? ((scrollProgress - (careerData.findIndex(node => node.isFork) / (careerData.length - 1))) / ((careerData.length - 1 - careerData.findIndex(node => node.isFork)) / (careerData.length - 1))) * ((careerData.length - 1 - careerData.findIndex(node => node.isFork)) / (careerData.length - 1)) * 100 : 0}%`,
+                  top: '33.333%',
+                  left: `${(careerData.findIndex(node => node.isFork) / (careerData.length - 1)) * 100}%`,
+                  opacity: scrollProgress >= (careerData.findIndex(node => node.isFork) / (careerData.length - 1)) && scrollProgress <= 1 ? 1 : 0
+                }}
+                className="absolute h-1 bg-primary-500 origin-left transition-all duration-100"
+              />
+
+              {/* Career Nodes */}
+              <div className="relative h-full flex items-center justify-between px-2 md:px-4">
+                {careerData.map((node, index) => {
+                  const nodePosition = index / (careerData.length - 1);
+                  const isActive = scrollProgress >= nodePosition;
+                  const scale = isActive ? 1 : 0;
+                  const opacity = scrollProgress >= nodePosition - 0.02 && scrollProgress <= nodePosition + 0.02 ? 1 : (isActive ? 1 : 0);
+                  const isForkNode = node.isFork;
+
+                  return (
+                    <div
+                      key={index}
+                      className="relative"
+                      style={{
+                        position: 'absolute',
+                        left: `${nodePosition * 100}%`,
+                        transform: 'translateX(-50%)',
+                        top: isForkNode ? '33.333%' : '66.666%'
+                      }}
+                    >
+                      {/* Node */}
+                      <motion.div
+                        style={{
+                          scale,
+                          opacity,
+                          transition: 'all 0.3s ease-out'
+                        }}
+                        className={`w-3 h-3 md:w-4 md:h-4 rounded-full border-2 md:border-4 border-white dark:border-gray-900 z-10 ${'bg-primary-500 dark:bg-dark-primary'
+                          }`}
+                      />
+
+                      {/* Fork Node Content - Desktop version */}
+                      {isForkNode && (
+                        <motion.div
+                          style={{
+                            opacity: isActive ? 1 : 0,
+                            y: isActive ? -80 : -100,
+                            transition: 'all 0.3s ease-out'
+                          }}
+                          className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-0"
+                        >
+                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
+                            {node.title}
+                          </h3>
+                          <p className="text-primary-500 dark:text-dark-primary text-xs font-medium">
+                            {node.company}
+                          </p>
+                          <p className="text-gray-500 dark:text-gray-400 text-xs">
+                            {node.period}
+                          </p>
+                          <p className="text-gray-600 dark:text-gray-300 text-xs mt-1">
+                            {node.description}
+                          </p>
+                        </motion.div>
+                      )}
+
+                      {/* Main Node Content - Desktop version */}
+                      {!isForkNode && node.start !== 'Present' && (
+                        <motion.div
+                          style={{
+                            opacity: isActive ? 1 : 0,
+                            y: isActive ? 20 : 40,
+                            transition: 'all 0.3s ease-out'
+                          }}
+                          className="absolute w-32 md:w-48 text-center left-1/2 -translate-x-1/2 top-12"
+                        >
+                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
+                            {node.title}
+                          </h3>
+                          <p className="text-primary-500 dark:text-dark-primary text-xs font-medium">
+                            {node.company}
+                          </p>
+                          <p className="text-gray-500 dark:text-gray-400 text-xs">
+                            {node.period}
+                          </p>
+                          <p className="text-gray-600 dark:text-gray-300 text-xs mt-1">
+                            {node.description}
+                          </p>
+                        </motion.div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
