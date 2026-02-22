@@ -4,8 +4,8 @@ import { useTheme } from '../contexts/ThemeContext';
 
 const menu = [
   { path: "#/", label: "Home" },
-  { path: "#/about", label: "About" },
-  { path: "#/projects", label: "Projects" },
+  { path: "#about", label: "About" },
+  { path: "#projects", label: "Projects" },
   { path: "#/contact", label: "Contact" },
 ];
 
