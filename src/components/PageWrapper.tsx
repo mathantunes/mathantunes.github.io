@@ -8,7 +8,7 @@ interface Props {
 
 export default function PageWrapper({ children }: Props) {
   return (
-    <div className="min-h-screen text-gray-900">
+    <div className="min-h-screen">
       <ScrollProgress />
       {children}
       <NavigationBubble />

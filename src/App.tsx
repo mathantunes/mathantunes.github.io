@@ -1,14 +1,17 @@
-import { BrowserRouter } from "react-router-dom";
-import PageWrapper from "./components/PageWrapper";
-import AppRoutes from "./routes";
+import { BrowserRouter } from 'react-router-dom';
+import PageWrapper from './components/PageWrapper';
+import AppRoutes from './routes';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   return (
-    <BrowserRouter>
-      <PageWrapper>
-        <AppRoutes />
-      </PageWrapper>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <PageWrapper>
+          <AppRoutes />
+        </PageWrapper>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

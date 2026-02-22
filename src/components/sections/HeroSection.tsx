@@ -1,11 +1,8 @@
 import { motion } from 'framer-motion';
 import ScrollTrigger from '../scroll/ScrollTrigger';
+import SkillCards from './SkillCards';
 
 export default function HeroSection() {
-  const techStack = [
-    'TypeScript', 'React', 'Node.js', 'C#', 'F#', '.NET',
-    'Go', 'Azure', 'AWS', 'Git', 'Terraform', 'Microsoft 365'
-  ];
   const socialLinks = [
     { name: 'LinkedIn', url: 'https://linkedin.com/in/matheusantunes', icon: '/assets/icons/linkedin.svg' },
     { name: 'GitHub', url: 'https://github.com/matheusantunes', icon: '/assets/icons/github.svg' },
@@ -13,59 +10,66 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center bg-background dark:bg-dark-background relative overflow-hidden pt-20">
       <ScrollTrigger onEnter={() => console.log('Hero entered')}>
         <div className="text-center z-10 px-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-6xl md:text-8xl font-bold text-gray-900 dark:text-white mb-6"
-          >
-            Matheus Antunes
-          </motion.h1>
+          <div className="flex flex-col md:flex-row items-center py-4">
+            <div className="text-left flex-1">
+              <motion.h1
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-4xl md:text-6xl font-bold text-text dark:text-dark-text mb-2"
+              >Matheus Antunes</motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8"
-          >
-            Fullstack Software Engineer
-          </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="text-xl md:text-2xl text-gray-600 dark:text-gray-300"
+              >Fullstack Software Engineer | Cloud Architect</motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8"
+              >🇨🇭 Zurich, Switzerland</motion.p>
+            </div>
+            <div className="flex-shrink-0">
+              <motion.img
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: 1,
+                  rotate: [0, 2, -2, 0]
+                }}
+                transition={{ 
+                  opacity: { duration: 0.8, delay: 0.6 },
+                  scale: { duration: 0.8, delay: 0.6 },
+                  rotate: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                }}
+                src="/assets/M.jpg"
+                alt="Matheus Antunes"
+                className="w-40 h-40 object-cover rounded-full border-4 border-gray-200 dark:border-gray-700 shadow-lg filter grayscale hover:grayscale-0 transition-all duration-300 hover:scale-105"
+              />
+            </div>
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto"
-          >
-            Specializing in architecture, cloud systems, and compliance-heavy applications
-          </motion.p>
-
-          {/* Tech Stack Badges */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-wrap justify-center gap-3 mt-8 mb-8 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+            className="mt-12"
           >
-            {techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-4 py-2 bg-primary-100 dark:bg-gray-700 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-shadow"
-              >
-                {tech}
-              </span>
-            ))}
+            <SkillCards />
           </motion.div>
 
           {/* Social Links */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.0 }}
-            className="flex justify-center gap-4 mb-12"
+            transition={{ duration: 0.8, delay: 1.2 }}
+            className="flex justify-center gap-4 mb-12 mt-16"
           >
             {socialLinks.map((link) => (
               <motion.a
@@ -88,12 +92,6 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            className="mt-12"
-          >
-            <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="inline-block"
@@ -102,15 +100,8 @@ export default function HeroSection() {
                 <div className="w-1 h-3 bg-primary-500 dark:bg-dark-primary rounded-full mt-2"></div>
               </div>
             </motion.div>
-          </motion.div>
         </div>
       </ScrollTrigger>
-
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-200 dark:bg-dark-primary opacity-20 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-300 dark:bg-dark-accent opacity-20 rounded-full blur-3xl"></div>
-      </div>
     </section>
   );
 }

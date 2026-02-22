@@ -1,4 +1,6 @@
 
+import { useTheme } from '../contexts/ThemeContext';
+
 const menu = [
   { path: "/", label: "Home" },
   { path: "#about", label: "About" },
@@ -7,6 +9,8 @@ const menu = [
 ];
 
 export default function NavigationChip() {
+  const { isDark, toggleTheme } = useTheme();
+
   return (
     <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
       <div
@@ -28,6 +32,15 @@ export default function NavigationChip() {
             {item.label}
           </a>
         ))}
+        
+        {/* Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          className="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-neutral-800"
+          aria-label="Toggle theme"
+        >
+          {isDark ? '☀️' : '🌙'}
+        </button>
       </div>
     </div>
   );
