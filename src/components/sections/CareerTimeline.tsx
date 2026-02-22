@@ -244,7 +244,7 @@ export default function CareerTimeline() {
 
           {/* Mobile Info Panel - Only show when node is active and timeline is locked */}
           {isLocked && (() => {
-            const activeNode = careerData.find((node, index) => {
+            const activeNode = careerData.find((_, index) => {
               const nodePosition = index / (careerData.length - 1);
               return scrollProgress >= nodePosition && scrollProgress - nodePosition < 0.15;
             });
