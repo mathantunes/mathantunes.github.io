@@ -99,10 +99,6 @@ export default function AboutSection() {
                 <div className="text-3xl font-bold text-primary-500 dark:text-dark-primary">4+</div>
                 <div className="text-sm">Industries</div>
               </div>
-              <div>
-                <div className="text-3xl font-bold text-primary-500 dark:text-dark-primary">100%</div>
-                <div className="text-sm">Compliance Rate</div>
-              </div>
             </div>
           </motion.div>
         </div>
