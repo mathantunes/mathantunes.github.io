@@ -4,7 +4,7 @@ import CareerTimeline from './CareerTimeline';
 
 export default function AboutSection() {
   const skills = [
-    'Software development', 'Cloud Architecture', 'DevOps', 'Database Design', 'Compliance', 'Security', 'Microservices', 'Networking'
+    'Software development', 'Cloud Architecture', 'Database Design'
   ];
 
   return (
@@ -48,12 +48,11 @@ export default function AboutSection() {
             >
               <div className="space-y-4 text-gray-600 dark:text-gray-300">
                 <p>
-                  I'm Matheus, a Software Engineer passionate about building robust, scalable, and secure systems.
+                  I'm Matheus, a Senior Full-Stack Software Engineer with 7+ years of experience designing and building scalable web platforms and distributed systems. Experienced in delivering production SaaS and enterprise systems across fintech, retail, and regulated industries.
                   My journey in technology has been driven by curiosity and a commitment to continuous learning around fullstack development but also everything else that allows applications to be built and run.
                 </p>
                 <p>
                   While I bring expertise across the full stack, I also have a strong background in designing systems using cloud infrastructure or self-hosting.
-                  More recently I have been involved in projects with a heavy focus on compliance and data security.
                 </p>
               </div>
             </motion.div>

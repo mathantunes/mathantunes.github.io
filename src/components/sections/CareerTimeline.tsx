@@ -16,16 +16,14 @@ interface CareerNode {
 
 const careerData: CareerNode[] = [
   {
-    title: 'Co-Founder 🇨🇭',
+    title: 'Senior Software Engineer & Co-Founder 🇨🇭',
     company: 'JAMTech',
     period: '2024 - Present',
     description: 'Building innovative tech solutions',
     highlights: [
-      'Designed and delivered multiple end-to-end cloud migrations from on-premises infrastructure to Azure and Microsoft 365 Enterprise',
-      'Architected secure identity and device management solutions using Entra ID, Intune, and zero-trust principles',
-      'Technical owner of Progredoc, a SaaS platform for social insurance, built with Next.js, React, and MySQL on Google Cloud Platform',
-      'Designed CI/CD pipelines, infrastructure automation, and production monitoring from ground up',
-      'Integrated AI-assisted development workflows (Cursor, Claude) to accelerate feature delivery and architectural prototyping 🤖'
+      'Designed and built Progredoc, a SaaS platform for secure exchange of social insurance data between organizations, improving operational workflows and reducing manual processing by 30%.',
+      'Architected a scalable cloud platform using Next.js, Node.js, PostgreSQL, and Google Cloud, supporting secure document processing and high-availability APIs.',
+      'Built a secure document communication layer for the Swiss Sedex network using C#, PostgreSQL, and event-sourcing, ensuring reliable, auditable delivery of sensitive data.',
     ],
     techStack: ['Next.js', 'React', 'MySQL', 'GCP', 'Azure', 'Microsoft 365', 'Entra ID', 'Intune', 'CI/CD', 'VPN', 'Fortigate'],
     start: 2024,
@@ -38,11 +36,12 @@ const careerData: CareerNode[] = [
     description: 'Leading fullstack development and cloud architecture for retail solutions',
     start: 2023,
     highlights: [
-      'Led end-to-end implementation of a self-checkout platform, including backend services and enterprise integrations, deployed across hundreds of stores',
-      'Designed cloud architecture and implemented Terraform-based infrastructure provisioning for Azure',
-      'Led a mission-critical cloud interconnection project between GCP and Azure, ensuring secure hybrid connectivity'
+      'Mentored junior engineers, reviewed production-critical code, and contributed to architectural discussions within the platform team.',
+      'Led the development of a cloud-based self-checkout platform deployed across Switzerland and Germany, building backend services and frontend interfaces using React, F#, and PostgreSQL on Google Cloud Platform.',
+      'Built and maintained infrastructure provisioning using Terraform, reducing environment setup time and improving deployment reliability.',
+      'Delivered a secure cross-cloud architecture between GCP and Azure, enabling hybrid workloads with high availability and resilient data exchange.'
     ],
-    techStack: ['F#', 'React', 'Firebase', 'PostgreSQL', 'GCP', 'Azure', 'Terraform', 'GitHub', 'Intune'],
+    techStack: ['F#', 'React', 'Firebase', 'PostgreSQL', 'GCP', 'Azure', 'Terraform', 'GitHub'],
   },
   {
     title: 'Fullstack Software Engineer 🇨🇭',
@@ -51,9 +50,9 @@ const careerData: CareerNode[] = [
     description: 'Built fullstack applications for fintech industry',
     start: 2021,
     highlights: [
-      'Designed and implemented subscription-based product features, directly increasing platform revenue',
-      'Led technical implementation of a white-labeling solution to expand into German market',
-      'Managed Azure infrastructure, deployments, and CI/CD workflows'
+      'Implemented efficient cashflow optimization algorithms for debt structuring, enabling faster and more accurate financial projections across client portfolios.',
+      'Developed full-stack platform features enabling financial institutions to manage loan issuance and reporting workflows.',
+      'Led technical implementation of a white-label platform solution, enabling expansion into Germany and onboarding multiple new clients.'
     ],
     techStack: ['Angular', 'C#', 'Azure', 'Azure DevOps', 'Entity Framework'],
     certifications: ['Microsoft Azure Developer Associate'],
@@ -69,7 +68,7 @@ const careerData: CareerNode[] = [
       'Architected an event-driven framework (C#, messaging systems) improving microservices performance by 30%',
       'Built centralized serverless data lake ingestion pipelines (Node.js, AWS)'
     ],
-    techStack: ['C#', 'Go', 'Node.js', 'AWS', 'SAM', 'Jenkins', 'Microservices', 'Kubernetes', 'NGINX', 'RabbitMQ', 'IBM MQ'],
+    techStack: ['C#', 'Go', 'Node.js', 'AWS', 'SAM', 'Jenkins', 'Microservices', 'Kubernetes', 'NGINX', 'RabbitMQ'],
     certifications: ['AWS Solutions Architect Associate'],
   },
   {
